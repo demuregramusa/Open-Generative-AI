@@ -21,7 +21,7 @@ export default async function RootLayout({ children }) {
   const { htmlLang } = getLocaleConfig(headerList.get('x-locale'));
 
   return (
-    <html lang={htmlLang}>
+    <html lang={htmlLang} suppressHydrationWarning>
       <body className={inter.variable}>{children}</body>
     </html>
   );
