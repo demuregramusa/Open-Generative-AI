@@ -4,8 +4,11 @@ import { getLocaleFromPathname } from './lib/locales';
 function addSecurityHeaders(response) {
     // Prevent MIME type sniffing (CWE-693)
     response.headers.set('X-Content-Type-Options', 'nosniff');
-    // Prevent clickjacking (CWE-1021)
-    response.headers.set('X-Frame-Options', 'DENY');
+    // Prevent clickjacking (CWE-1021) in production only so the app can be
+    // previewed in an iframe during development.
+    if (process.env.NODE_ENV === 'production') {
+        response.headers.set('X-Frame-Options', 'DENY');
+    }
     // Enable XSS filter in legacy browsers
     response.headers.set('X-XSS-Protection', '1; mode=block');
     // Referrer policy

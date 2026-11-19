@@ -1,0 +1,40 @@
+{
+  "systemSetup": [],
+  "templateName": "custom",
+  "projectDependencies": [
+    { "name": "Initialize Submodules", "command": "git submodule update --init --recursive" },
+    { "name": "Install Dependencies", "command": "npm install" }
+  ],
+  "codeChecks": [
+    { "name": "Run Tests", "command": "cd tests && node --test" }
+  ],
+  "buildSteps": [
+    { "name": "Build Workspace Packages", "command": "npm run build:packages" }
+  ],
+  "runStep": [
+    { "name": "Run Dev Server", "command": "npm run dev -- --port 3000", "port": "3000" }
+  ],
+  "deploySteps": [
+    { "name": "Build Project", "command": "npm run build" }
+  ],
+  "cleanupFiles": [
+    "node_modules",
+    ".next",
+    "dist",
+    "out",
+    "release",
+    ".webpack",
+    "packages/studio/dist",
+    "packages/Vibe-Workflow/packages/workflow-builder/dist",
+    "packages/Open-Poe-AI/packages/agents/dist",
+    "packages/Open-AI-Design-Agent/packages/design-agent/dist"
+  ],
+  "packageManager": "npm",
+  "envPaths": [
+    { "name": "default", "path": ".env" },
+    { "name": "Vibe-Workflow Server", "path": "packages/Vibe-Workflow/server/.env" },
+    { "name": "Open-Poe-AI Server", "path": "packages/Open-Poe-AI/server/.env" },
+    { "name": "Design Agent Client", "path": "packages/Open-AI-Design-Agent/client/.env" },
+    { "name": "Design Agent Server", "path": "packages/Open-AI-Design-Agent/server/.env" }
+  ]
+}
