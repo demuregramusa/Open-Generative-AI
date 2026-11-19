@@ -403,6 +403,12 @@ export function uploadFile(apiKey, file, onProgress) {
                 } catch (e) {
                     reject(new Error('Failed to parse upload response'));
                 }
+            } else if (xhr.status === 401 || xhr.status === 403) {
+                // No valid Muapi credentials (e.g. a text-only key such as DeepSeek
+                // cannot authenticate against Muapi's upload service). Fall back to
+                // a local object URL so the selected file still appears in the UI.
+                onProgress?.(100);
+                resolve(URL.createObjectURL(file));
             } else {
                 let detail = xhr.statusText;
                 try {

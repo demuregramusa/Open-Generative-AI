@@ -371,6 +371,10 @@ export class MuapiClient {
 
         if (!response.ok) {
             const errText = await response.text();
+            if (response.status === 401 || response.status === 403) {
+                console.warn('[Muapi] Upload auth failed, using local object URL:', response.status);
+                return URL.createObjectURL(file);
+            }
             throw new Error(`File upload failed: ${response.status} - ${errText.slice(0, 100)}`);
         }
 
